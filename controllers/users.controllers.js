@@ -1,37 +1,29 @@
-const findUsers = (req, res) => {
+exports.findUsers = (req, res) => {
   res.json({
     status: 'success',
   });
 };
 
-const findUser = (req, res) => {
+exports.findUser = (req, res) => {
   res.json({
     status: 'success',
   });
 };
 
-const createUser = (req, res) => {
+exports.createUser = (req, res) => {
   res.json({
     status: 'success',
   });
 };
 
-const updateUser = (req, res) => {
+exports.updateUser = (req, res) => {
   res.json({
     status: 'success',
   });
 };
 
-const deleteUser = (req, res) => {
+exports.deleteUser = (req, res) => {
   res.json({
     status: 'success',
   });
-};
-
-module.exports = {
-  findUsers,
-  findUser,
-  createUser,
-  updateUser,
-  deleteUser,
 };
