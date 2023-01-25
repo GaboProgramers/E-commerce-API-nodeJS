@@ -14,7 +14,7 @@ class Server {
 
     //DEFINIMOS LOS PATHS DE NUESTRA APLICACIÓN
     this.paths = {
-      user: '/api/v1/user',
+      user: '/api/v1/users',
       products: '/api/v1/products',
     };
 

@@ -4,7 +4,7 @@ const {
   updateUser,
   deleteUser,
   findUsers,
-  findUser,
+  findUser
 } = require('../controllers/users.controllers');
 
 const router = Router();
