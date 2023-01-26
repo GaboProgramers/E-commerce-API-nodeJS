@@ -41,5 +41,5 @@ router.patch('/:id', updateProduct);
 router.delete('/:id', deleteProduct);
 
 module.exports = {
-  productRouter: router,
+  productRouter: router
 };

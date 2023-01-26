@@ -3,6 +3,8 @@ const { productRouter } = require('../routes/product.routes');
 const cors = require('cors');
 const { usersRouter } = require('../routes/user.routes');
 const { db } = require('../database/db');
+const morgan = require('morgan');
+const { categorieRouter } = require('../routes/categories.routes');
 //1. CREAMOS UNA CLASE
 
 class Server {
@@ -16,6 +18,7 @@ class Server {
     this.paths = {
       user: '/api/v1/users',
       products: '/api/v1/products',
+      categories: '/api/v1/category'
     };
 
     //LLAMO EL METODO DE CONEXION A LA BASE DE DATOS
@@ -30,6 +33,9 @@ class Server {
 
   //MIDDLEWARES
   middlewares() {
+    if (process.env.NODE_ENV === 'development') {
+      this.app.use(morgan('dev'))
+    }
     //UTILIZAMOS LAS CORS PARA PERMITIR ACCESSO A LA API
     this.app.use(cors());
     //UTILIZAMOS EXPRESS.JSON PARA PARSEAR EL BODY DE LA REQUEST
@@ -42,6 +48,8 @@ class Server {
     this.app.use(this.paths.products, productRouter);
     //utilizar las rutas de usuarios
     this.app.use(this.paths.user, usersRouter);
+
+    this.app.use(this.paths.categories, categorieRouter);
   }
 
   database() {
