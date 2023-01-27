@@ -25,22 +25,7 @@ exports.findUsers = async (req, res) => {
 
 exports.findUser = async (req, res) => {
   try {
-    const { id } = req.params
-
-    const user = await User.findOne({
-      where: {
-        id,
-        status: true
-      }
-    })
-
-
-    if (!user) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'The user was not fount'
-      })
-    }
+    const { user } = req
 
     res.status(200).json({
       status: 'success',
@@ -83,23 +68,9 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
 
   try {
-    const { id } = req.params
+    const { user } = req
 
     const { username, email } = req.body
-
-    const user = await User.findOne({
-      where: {
-        id,
-        status: true
-      }
-    })
-
-    if (!user) {
-      return res.status(404).json({
-        status: 'error',
-        messaje: 'The user was not fount'
-      })
-    }
 
     const updateUser = await user.update({
       username,
@@ -122,21 +93,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const { id } = req.params
-
-    const user = await User.findOne({
-      where: {
-        id,
-        status: true
-      }
-    })
-
-    if (!user) {
-      return res.status(404).json({
-        status: 'error',
-        messaje: 'The user was not fount'
-      })
-    }
+    const { user } = req
 
     await user.update({ status: false })
 

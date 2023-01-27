@@ -35,13 +35,13 @@ exports.findCategory = async (req, res) => {
         if (!categories) {
             return res.status(404).json({
                 status: 'error',
-                message: 'The product was not fount'
+                message: 'Category not fount'
             })
         }
 
         res.status(200).json({
             status: 'success',
-            message: 'The categorie was found succssfully',
+            message: 'Category fetched succssfully',
             categories
         });
     } catch (error) {
