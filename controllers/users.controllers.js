@@ -46,8 +46,8 @@ exports.createUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     const newUser = await User.create({
-      username,
-      email,
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
       password
     });
 

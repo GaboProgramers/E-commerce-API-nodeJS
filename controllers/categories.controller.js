@@ -24,20 +24,7 @@ exports.findCategories = async (req, res) => {
 
 exports.findCategory = async (req, res) => {
     try {
-        const { id } = req.params
-        const categories = await Categories.findOne({
-            where: {
-                id,
-                status: true
-            }
-        })
-
-        if (!categories) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Category not fount'
-            })
-        }
+        const { categories } = req
 
         res.status(200).json({
             status: 'success',
@@ -77,18 +64,11 @@ exports.createCategory = async (req, res) => {
 
 exports.updateCategory = async (req, res) => {
     try {
-        const { id } = req.params
+        const { categories } = req
 
         const { name } = req.body
 
-        const categorie = await Categories.findOne({
-            where: {
-                id,
-                status: true
-            }
-        })
-
-        const updateCategorie = await categorie.update({
+        const updateCategorie = await categories.update({
             name
         })
 
@@ -108,16 +88,9 @@ exports.updateCategory = async (req, res) => {
 
 exports.deleteCategory = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { categories } = req
 
-        const categorie = await Categories.findOne({
-            where: {
-                id,
-                status: true
-            }
-        })
-
-        await categorie.update({ status: false })
+        await categories.update({ status: false })
 
 
         res.status(200).json({

@@ -28,4 +28,38 @@ exports.validUserById = async (req, res, next) => {
     }
 }
 
+exports.validIfExistUserEmail = async (req, res, next) => {
+    try {
+        const { email } = req.body
+
+        const user = await User.findOne({
+            where: {
+                email: email.toLowerCase()
+            }
+        })
+
+        if (user && !user.status) {
+            return res.status(400).json({
+                status: 'error',
+                message:
+                    'The user has an account, but it is deactivated, please talk to the administrator to activate it.'
+            })
+        }
+
+        if (user) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'the email user already exists'
+            })
+        }
+
+        next()
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Internal server error',
+        });
+    }
+}
 // ? next =  sirve para decirle que siga ah la siguiente funcion.
