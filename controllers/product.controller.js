@@ -1,117 +1,76 @@
 const Product = require('../models/product.model');
+const catchAsync = require('../utils/catchAsync');
 
-exports.findProducts = async (req, res) => {
+exports.findProducts = catchAsync(async (req, res, next) => {
+  const products = await Product.findAll({
+    where: {
+      status: true
+    }
+  })
 
-  try {
-    const products = await Product.findAll({
-      // ? clausulas
-      where: {
-        status: true
-      }
-    })
+  res.status(200).json({
+    status: 'success',
+    message: 'The products found were successfully',
+    products
+  });
+})
 
-    res.status(200).json({
-      status: 'success',
-      message: 'The products found were successfully',
-      products
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Internal server error',
-    });
-  }
-};
+exports.findProduct = catchAsync(async (req, res, next) => {
+  const { product } = req
 
-exports.findProduct = async (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'The product was found succssfully',
+    product
+  });
+})
 
-  try {
-    const { product } = req
+exports.createProduct = catchAsync(async (req, res, next) => {
+  const { title, description, quantity, price, categoryId, userId } = req.body;
 
-    res.status(200).json({
-      status: 'success',
-      message: 'The product was found succssfully',
-      product
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Internal server error',
-    });
-  }
-};
+  const newProduct = await Product.create({
+    title: title.toLowerCase(),
+    description: description.toLowerCase(),
+    quantity,
+    price,
+    categoryId,
+    userId,
+  });
 
-exports.createProduct = async (req, res) => {
-  try {
-    const { title, description, quantity, price, categoryId, userId } = req.body;
+  res.status(201).json({
+    status: 'success',
+    message: 'The product was created successfully',
+    newProduct,
+  });
+})
 
-    const newProduct = await Product.create({
-      title: title.toLowerCase(),
-      description: description.toLowerCase(),
-      quantity,
-      price,
-      categoryId,
-      userId,
-    });
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  const { product } = req
 
-    res.status(201).json({
-      status: 'success',
-      message: 'The product was created successfully',
-      newProduct,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Internal server error',
-    });
-  }
-};
+  const { title, description, quantity, price } = req.body
 
-exports.updateProduct = async (req, res) => {
-  try {
-    const { product } = req
+  const updateProduct = await product.update({
+    title,
+    description,
+    quantity,
+    price
+  })
 
-    const { title, description, quantity, price } = req.body
+  res.status(200).json({
+    status: 'success',
+    message: 'The product was fount update',
+    updateProduct
+  });
+})
 
-    const updateProduct = await product.update({
-      title,
-      description,
-      quantity,
-      price
-    })
+exports.deleteProduct = catchAsync(async (req, res, next) => {
+  const { product } = req
 
-    res.status(200).json({
-      status: 'success',
-      message: 'The product was fount update',
-      updateProduct
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Internal server error',
-    });
-  }
-};
+  await product.update({ status: false })
 
-exports.deleteProduct = async (req, res) => {
-  try {
-    const { product } = req
+  res.status(200).json({
+    status: 'success',
+    message: 'The product has been delete succssfully'
+  });
 
-    await product.update({ status: false })
-
-    res.status(200).json({
-      status: 'success',
-      message: 'The product has been delete succssfully'
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Internal server error',
-    });
-  }
-};
+})

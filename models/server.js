@@ -5,6 +5,8 @@ const { productRouter } = require('../routes/product.routes');
 const { usersRouter } = require('../routes/user.routes');
 const { db } = require('../database/db');
 const { categorieRouter } = require('../routes/categories.routes');
+const globalErrorHandler = require('../controllers/error/error.controller');
+const AppError = require('../utils/appError');
 
 class Server {
   constructor() {
@@ -43,7 +45,18 @@ class Server {
 
     this.app.use(this.paths.categories, categorieRouter);
 
-    // this.app.use(this.paths.cart,);
+    // this.app.all('*', (req, res, next) => {
+    //   res.status(404).json({
+    //     status: "error",
+    //     message: `can't find ${req.originalUrl} on this server`
+    //   })
+    // })
+
+    this.app.all('*', (req, res, next) => {
+      return next(new AppError(`can't find ${req.originalUrl} on this server`, 404))
+    })
+
+    this.app.use(globalErrorHandler)
   }
 
   database() {

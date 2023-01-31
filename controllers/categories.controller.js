@@ -1,107 +1,73 @@
-const Categories = require('../models/categories.model')
+const Categories = require('../models/categories.model');
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
-exports.findCategories = async (req, res) => {
-    try {
-        const categories = await Categories.findAll({
-            where: {
-                status: true
-            }
-        })
+exports.findCategories = catchAsync(async (req, res, next) => {
+    const categories = await Categories.findAll({
+        where: {
+            status: true
+        }
+    })
 
-        res.status(200).json({
-            status: 'success',
-            message: 'The categorie found were successfully',
-            categories
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            status: 'fail',
-            message: 'Internal server error',
-        });
-    }
-}
+    res.status(200).json({
+        status: 'success',
+        message: 'The categorie found were successfully',
+        categories
+    });
+})
 
-exports.findCategory = async (req, res) => {
-    try {
-        const { categories } = req
+exports.findCategory = catchAsync(async (req, res, next) => {
+    const { categories } = req
 
-        res.status(200).json({
-            status: 'success',
-            message: 'Category fetched succssfully',
-            categories
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            status: 'fail',
-            message: 'Internal server error',
-        });
-    }
-}
+    res.status(200).json({
+        status: 'success',
+        message: 'Category fetched succssfully',
+        categories
+    });
 
-exports.createCategory = async (req, res) => {
-    try {
-        const { name } = req.body;
+})
 
-        const newCategory = await Categories.create({
-            name: name.toLowerCase()
-        });
+exports.createCategory = catchAsync(async (req, res, next) => {
+    const { name } = req.body;
 
-        res.status(201).json({
-            status: 'success',
-            message: 'The categorie was created successfully',
-            newCategory
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            status: 'fail',
-            message: 'Internal server error',
-        });
-    }
-}
+    const newCategory = await Categories.create({
+        name: name.toLowerCase()
+    });
 
-exports.updateCategory = async (req, res) => {
-    try {
-        const { categories } = req
+    res.status(201).json({
+        status: 'success',
+        message: 'The categorie was created successfully',
+        newCategory
+    });
+})
 
-        const { name } = req.body
+exports.updateCategory = catchAsync(async (req, res, next) => {
+    const { categories } = req
 
-        const updateCategorie = await categories.update({
-            name
-        })
+    const { name } = req.body
 
-        res.status(200).json({
-            status: 'success',
-            message: 'The categorie was fount update',
-            updateCategorie
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            status: 'fail',
-            message: 'Internal server error',
-        });
-    }
-}
+    const updateCategorie = await categories.update({
+        name
+    })
 
-exports.deleteCategory = async (req, res) => {
-    try {
-        const { categories } = req
+    res.status(200).json({
+        status: 'success',
+        message: 'The categorie was fount update',
+        updateCategorie
+    });
+})
 
-        await categories.update({ status: false })
+exports.deleteCategory = catchAsync(async (req, res, next) => {
+
+    const { categories } = req
+
+    await categories.update({ status: false })
 
 
-        res.status(200).json({
-            status: 'success',
-            message: 'The categorie has been delete succssfully'
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            status: 'fail',
-            message: 'Internal server error',
-        });
-    }
-}
+    res.status(200).json({
+        status: 'success',
+        message: 'The categorie has been delete succssfully'
+    });
+})
+
+// ! catchAsync = investigar
