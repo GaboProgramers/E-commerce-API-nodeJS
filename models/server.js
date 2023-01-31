@@ -45,13 +45,6 @@ class Server {
 
     this.app.use(this.paths.categories, categorieRouter);
 
-    // this.app.all('*', (req, res, next) => {
-    //   res.status(404).json({
-    //     status: "error",
-    //     message: `can't find ${req.originalUrl} on this server`
-    //   })
-    // })
-
     this.app.all('*', (req, res, next) => {
       return next(new AppError(`can't find ${req.originalUrl} on this server`, 404))
     })
