@@ -6,7 +6,7 @@ exports.validateFields = (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({
             status: 'error',
-            errors: errors.mapped() // ? colocar los errores en lista.
+            errors: errors.mapped()
         })
     }
     next()

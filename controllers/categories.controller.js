@@ -1,5 +1,4 @@
 const Categories = require('../models/categories.model');
-const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.findCategories = catchAsync(async (req, res, next) => {
@@ -69,5 +68,3 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
         message: 'The categorie has been delete succssfully'
     });
 })
-
-// ! catchAsync = investigar
