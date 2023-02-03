@@ -4,7 +4,8 @@ const {
   updateUser,
   deleteUser,
   findUsers,
-  findUser
+  findUser,
+  updatePassword
 } = require('../controllers/users.controllers');
 const { validUserById, validIfExistUserEmail } = require('../middlewares/user.middleware');
 const { validateFields } = require('../middlewares/validateField.middleware');
@@ -12,6 +13,7 @@ const { validateFields } = require('../middlewares/validateField.middleware');
 const router = Router();
 
 router.get('/', findUsers);
+
 router.get('/:id', validUserById, findUser);
 
 router.patch('/:id', [
@@ -21,6 +23,13 @@ router.patch('/:id', [
   validateFields,
   validUserById
 ], updateUser);
+
+router.patch('/password/:id', [
+  check('currentPassword', 'The current password must be mandatory').not().isEmpty(),
+  check('newPassword', 'The new password must be mandatory').not().isEmpty(),
+  validateFields,
+  validUserById
+], updatePassword)
 
 router.delete('/:id', validUserById, deleteUser);
 
