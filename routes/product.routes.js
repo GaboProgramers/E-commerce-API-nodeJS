@@ -7,6 +7,7 @@ const {
   deleteProduct,
   findProduct,
 } = require('../controllers/product.controller');
+const { protect } = require('../middlewares/auth/auth.middleware');
 const { validProductById } = require('../middlewares/products.middlewares');
 const { validateFields } = require('../middlewares/validateField.middleware');
 
@@ -15,6 +16,8 @@ const router = Router();
 router.get('/', findProducts);
 
 router.get('/:id', validProductById, findProduct);
+
+router.use(protect)
 
 router.post('/', [
   check('title', 'The title require').not().isEmpty(),

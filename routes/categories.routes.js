@@ -11,10 +11,11 @@ router.get('/', findCategories)
 
 router.get('/:id', validCategoryById, findCategory)
 
+router.use(protect)
+
 router.post('/', [
     check('name', 'The name is require').not().isEmpty(),
     validateFields,
-    protect
 ], createCategory)
 
 router.patch('/:id', validCategoryById, updateCategory)
